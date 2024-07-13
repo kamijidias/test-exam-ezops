@@ -24,8 +24,5 @@ Thumbs.db
 # Cache
 .cache/
 
-# Environment variables
-.env
-
 # Docker
 .docker/
