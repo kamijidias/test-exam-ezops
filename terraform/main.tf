@@ -20,3 +20,35 @@ provider "aws" {
   access_key = var.aws_access_key_id
   secret_key = var.aws_secret_access_key
 }
+
+# Criar o bucket S3
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "test-andrew-terraform-state"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+
+  tags = {
+    Name        = "Terraform State Bucket"
+    Environment = var.environment
+  }
+}
+
+# Criar a tabela DynamoDB
+resource "aws_dynamodb_table" "terraform_locks" {
+  name         = "test-andrew-terraform-locks"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+
+  tags = {
+    Name        = "Terraform Locks Table"
+    Environment = var.environment
+  }
+}

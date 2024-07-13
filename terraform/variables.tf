@@ -27,3 +27,9 @@ variable "aws_arn_role" {
   description = "The AWS ARN role"
   type        = string
 }
+
+variable "environment" {
+  description = "The environment for the resources."
+  type        = string
+  default     = "dev"
+}
