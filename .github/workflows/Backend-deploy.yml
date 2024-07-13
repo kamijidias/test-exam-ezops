@@ -72,11 +72,12 @@ jobs:
 
       - name: Terraform Plan
         id: terraform-plan
-        run: cd terraform 
-             terraform plan -out=tfplan \
-            -var="aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" \
-            -var="aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-            -var="aws_region=us-east-1"
+        run: |
+          cd terraform
+          terraform plan -out=tfplan \
+          -var="aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+          -var="aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+          -var="aws_region=us-east-1"
 
       - name: Save Terraform Plan
         uses: actions/upload-artifact@v2
@@ -85,7 +86,9 @@ jobs:
           path: terraform/tfplan
 
       - name: Terraform Apply
-        run: cd terraform && terraform apply -auto-approve
+        run: |
+          cd terraform
+          terraform apply -auto-approve tfplan
 
       - name: Update Kubernetes Deployment
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
