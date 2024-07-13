@@ -12,3 +12,18 @@ variable "aws_secret_access_key" {
   type        = string
   description = "The AWS secret access key."
 }
+
+variable "ec2_key_name" {
+  description = "Name of the SSH key pair for EC2 instances"
+  type        = string
+}
+
+variable "backend_port" {
+  description = "external port to backend"
+  type        = number
+}
+
+variable "aws_arn_role" {
+  description = "The AWS ARN role"
+  type        = string
+}

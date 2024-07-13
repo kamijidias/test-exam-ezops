@@ -1,7 +1,5 @@
-resource "aws_security_group" "k3s_sg" {
-  name        = "test-andrew-k3s-sg"
-  description = "Allow all traffic"
-  vpc_id      = aws_vpc.test_vpc.id
+resource "aws_security_group" "allow_all" {
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = 0
@@ -10,14 +8,28 @@ resource "aws_security_group" "k3s_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
+  ingress {
     from_port   = 0
     to_port     = 65535
-    protocol    = "tcp"
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
-    Name = "k3s-sg"
+    Name = "AllowAllSG"
   }
 }
