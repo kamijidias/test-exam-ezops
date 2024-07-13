@@ -1,0 +1,4 @@
+node_modules/
+devops.txt
+.docker
+docker-compose.yml

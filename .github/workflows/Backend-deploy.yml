@@ -1,0 +1,102 @@
+name: Backend Build and Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+      aws-assume-role-arn:
+        type: string
+        required: true
+      aws-region:
+        type: string
+        required: true
+      aws-statefile-s3-bucket:
+        type: string
+        required: true
+      aws-lock-dynamodb-table:
+        type: string
+        required: true
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Verify Dockerfile
+        run: |
+          cd rest-api-ezops-test/
+          ls -la
+          cat Dockerfile
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build and push Docker images
+        run: |
+          cd rest-api-ezops-test/
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/backend-image:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend-image:latest
+
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Download Terraform CLI
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Initialize Terraform
+        run: cd terraform && terraform init -reconfigure -backend-config="bucket=test-andrew-terraform-state" -backend-config="key=network/terraform.tfstate" -backend-config="region=us-east-1"
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: terraform-plan
+        run: terraform plan -out=tfplan
+
+      - name: Save Terraform Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: tfplan
+          path: tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      - name: Update Kubernetes Deployment
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y apt-transport-https curl gnupg2
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+            kubectl apply -f kubernetes/backend-deployment.yaml
+            kubectl apply -f kubernetes/postgres-deployment.yaml
+            kubectl apply -f kubernetes/backend-service.yaml
+            kubectl apply -f kubernetes/postgres-service.yaml
