@@ -24,11 +24,11 @@ spec:
         - name: DB_HOST
           value: "postgres"
         - name: DB_NAME
-          value: "mydatabase"
+          value: "database"
         - name: DB_USER
-          value: "myuser"
+          value: "user"
         - name: DB_PASSWORD
-          value: "mypassword"
+          value: "password"
 
         - name: DB_PORT
           value: "5432"  

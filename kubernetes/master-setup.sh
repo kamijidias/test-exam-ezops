@@ -1,17 +1,17 @@
 #!/bin/bash
 set -e
 
-# Update the package index
+# Atualizar o índice de pacotes
 sudo apt-get update
 
-# Install Docker
+# Instalar Docker
 sudo apt-get install -y docker.io
 
-# Enable and start Docker service
+# Habilitar e iniciar o serviço Docker
 sudo systemctl enable docker
 sudo systemctl start docker
 
-# Install Kubernetes components
+# Instalar componentes do Kubernetes
 sudo apt-get install -y apt-transport-https curl gnupg2
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
@@ -19,30 +19,30 @@ sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-# Enable and start Kubelet service
+# Habilitar e iniciar o serviço Kubelet
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
 
-# Disable swap (required by Kubernetes)
+# Desabilitar swap (requisito do Kubernetes)
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-# Initialize Kubernetes on master node if needed
+# Inicializar Kubernetes no nó master, se necessário
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
-# Wait for kubeadm init to complete
+# Aguardar a conclusão do kubeadm init
 sleep 240
 
-# Set up local kubeconfig
+# Configurar kubeconfig local
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# Apply Flannel CNI plugin
+# Aplicar o plugin Flannel CNI
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-# Generate join command for worker nodes
+# Gerar comando de junção para nós de trabalho
 sudo kubeadm token create --print-join-command > /joincluster.sh
 
-# Make the join script executable
+# Tornar o script de junção executável
 sudo chmod +x /joincluster.sh
