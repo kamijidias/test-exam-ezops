@@ -5,19 +5,19 @@ provider "aws" {
 }
 
 # #Criar o bucket S3
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "test-andrew-terraform-state"
-  acl    = "private"
+# resource "aws_s3_bucket" "terraform_state" {
+#   bucket = "test-andrew-terraform-state"
+#   acl    = "private"
 
-  versioning {
-    enabled = true
-  }
+#   versioning {
+#     enabled = true
+#   }
 
-  tags = {
-    Name        = "Terraform State Bucket"
-    Environment = var.environment
-  }
-}
+#   tags = {
+#     Name        = "Terraform State Bucket"
+#     Environment = var.environment
+#   }
+# }
 
 
 terraform {
