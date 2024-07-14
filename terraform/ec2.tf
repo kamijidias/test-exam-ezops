@@ -138,6 +138,6 @@ resource "aws_instance" "worker" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "test-andrew-key"
+  key_name   = "test-andrew-role"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDRd8bUHNJ6pgUDfspYSG5ynDTYu0tvoI1oBl6pftcillF2vPtnlNnuSB/Q6DDr1iTcBINy9oZV2YguzpD2YANhzyWDB0miwDPCP9XCsBzD9Q7u9tOCsa/12RZTFkhiVGenITtaCDuYGkMQx63UkaIz8jyG8zqvGRm6n6a+J8KZnnC3OT7haHPFX/Xtk1KR7qlENzCEaf8bapBA7ZqUMw0va7cPsfQnKlp0TYmfjvlrtY7tPNHLN22eAADk6niLiY/iNn+78oWqvwMN1ZprCC6Jv/L7RwgMsN9p0dNOKsxPdxf5EbpnI12HTHihpg0KQ9WznWtdx0v7fmzmdakSkGd kamijidev@gmail.com"
 }
