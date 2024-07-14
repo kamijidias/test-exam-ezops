@@ -49,7 +49,7 @@ resource "aws_subnet" "main" {
 resource "aws_network_acl" "main" {
   vpc_id = aws_vpc.main.id
 
-ingress {
+  ingress {
     rule_no = 100
     protocol    = "tcp"
     action = "allow"
@@ -67,7 +67,7 @@ ingress {
     to_port     = 65535
   }
 
- ingress {
+  ingress {
     rule_no = 102
     protocol    = "icmp"
     action = "allow"
@@ -118,12 +118,12 @@ resource "aws_instance" "master" {
 
   user_data = "${file("../${path.root}/kubernetes/master-setup.sh")}"
   tags = {
-    Name = "test-andrew-Kubernetes-Master"
+    Name = "test-andrew-kubernetes-master"
   }
 }
 
 resource "aws_instance" "worker" {
-  count                  = 2
+  count                  = 1
   ami                    = "ami-0e472ba40eb589f49"
   instance_type          = "t2.small"
   subnet_id              = aws_subnet.public.id
@@ -133,7 +133,7 @@ resource "aws_instance" "worker" {
   user_data = "${file("../${path.root}/kubernetes/worker-setup.sh")}"
 
   tags = {
-    Name = "test-andrew-Kubernetes-Worker-${count.index + 1}"
+    Name = "test-andrew-kubernetes-worker-${count.index + 1}"
   }
 }
 
