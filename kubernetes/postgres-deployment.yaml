@@ -27,4 +27,3 @@ spec:
           value: "myuser"
         - name: POSTGRES_PASSWORD
           value: "mypassword"
-
