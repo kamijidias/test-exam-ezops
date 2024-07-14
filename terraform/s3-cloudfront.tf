@@ -67,4 +67,3 @@ resource "aws_cloudfront_distribution" "frontend_distribution" {
 resource "aws_cloudfront_origin_access_identity" "frontend_origin_access_identity" {
   comment = "Access identity for S3 bucket"
 }
-
