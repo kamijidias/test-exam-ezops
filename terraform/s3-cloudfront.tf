@@ -7,7 +7,6 @@ resource "aws_s3_bucket" "frontend_bucket" {
     error_document = "index.html"
   }
 
-  # Optional: Enable versioning for the bucket if needed
   versioning {
     enabled = true
   }
