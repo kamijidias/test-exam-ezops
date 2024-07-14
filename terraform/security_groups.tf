@@ -30,6 +30,6 @@ resource "aws_security_group" "allow_all" {
   }
 
   tags = {
-    Name = "AllowAllSG"
+    Name = "test-andrew-allow-all"
   }
 }

@@ -107,3 +107,4 @@ jobs:
             kubectl apply -f kubernetes/postgres-deployment.yaml
             kubectl apply -f kubernetes/backend-service.yaml
             kubectl apply -f kubernetes/postgres-service.yaml
+          debug: true
