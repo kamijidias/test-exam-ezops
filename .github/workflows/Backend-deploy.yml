@@ -107,6 +107,3 @@ jobs:
             kubectl apply -f kubernetes/postgres-deploy.yaml
             kubectl apply -f kubernetes/backend-service.yaml
             kubectl apply -f kubernetes/postgres-service.yaml
-          timeout: 60s
-          command_timeout: 10m
-          debug: true
