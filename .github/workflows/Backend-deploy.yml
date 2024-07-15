@@ -94,7 +94,7 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.EC2_HOST_WORKER_1 }
+          host: ${{ secrets.EC2_HOST_WORKER_1 }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
@@ -112,7 +112,7 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.EC2_HOST_WORKER_2 }
+          host: ${{ secrets.EC2_HOST_WORKER_2 }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
