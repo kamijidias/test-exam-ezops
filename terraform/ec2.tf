@@ -123,7 +123,7 @@ resource "aws_instance" "master" {
 }
 
 resource "aws_instance" "worker" {
-  count                  = 1
+  count                  = 2
   ami                    = "ami-0e472ba40eb589f49"
   instance_type          = "t2.small"
   subnet_id              = aws_subnet.public.id
