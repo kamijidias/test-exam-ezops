@@ -138,6 +138,6 @@ resource "aws_instance" "worker" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "test-andrew-role"
+  key_name   = "test-andrew-key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCuDNkLuKIH3pdFCg+9KpyG+oOVBRnsa7vTDkm4ESFAQSarEPaz0GRhHtcG8jjRFoFJVMqK3C/ocM8g0ICp17XghmLfcTIlFq3s9U1PTAAvfnBqqI+kLdgtoibAnTX0fgD1Cvok/UVkgfNyGxrq0UFk1GRjqceeRDKwjQXjbzMqxavk/zDAFofhcNf357e0m9V1EV7DGpZkhOEGFTA+02++x0evg0IvKPqqYmZp3vLrnd1HnwD7CQxLHzd1mXpEvPnHEuO45AnucytBXA97+LUCbY7xhXausWak78l3Q+RZ6NnOYyymSjTmPtsjgCgLa736UfVxM6vwiK9yczaH6edd90t6wQ6t6QBh/MYzgkD/DVTJ5yTcbS/09TMLpqbnexkoZjs3My4WX9WhOe6jfzNg9EVphSAueYmaS1o4iGJLFObTcr/tDyyhvpcQLwqTP7pq9cEZ6MjSG3YEPKrAE49Rt0WwCQdRGogqymEBoBX4R0vOcPKg/lhVqlJ8Jvl0gIM7vezsHdMn5bslWmm6AWxMS2H6iXC6fAeXbzg8ud9wdzIN8dzJKXWDsL5JSGFJ4m+WZaxh5BGf4qGMkJm6lIVv7T72p7BtrQLoZkP398CISE0Wb0rq9bY1SjhJSz6thMZGiOZ8e7Bbk3UzfTRtPB6hDv1ioJ8KFWwPAXdY2G6LJw== kamijidev@gmail.com"
 }
