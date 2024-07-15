@@ -131,6 +131,10 @@ resource "aws_instance" "worker" {
   key_name               = var.ec2_key_name
 
   user_data = "${file("../${path.root}/kubernetes/worker-setup.sh")}"
+
+  tags = {
+    Name = "test-andrew-kubernetes-worker-${count.index + 1}"
+  }
 }
 
 resource "aws_key_pair" "deployer" {
