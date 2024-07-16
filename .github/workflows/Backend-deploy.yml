@@ -91,25 +91,25 @@ jobs:
           terraform apply -auto-approve tfplan
 
       # Máquina Master
-      # - name: Update Kubernetes Deployment on Worker 1
-      #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      #   uses: appleboy/ssh-action@v0.1.6
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.EC2_SSH_KEY }}
-      #     port: 22
-      #     script: |
-      #       sudo apt-get update
-      #       sudo apt-get install -y apt-transport-https curl gnupg2
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      #       chmod +x ./kubectl
-      #       sudo mv ./kubectl /usr/local/bin/kubectl
-      #       kubectl apply -f kubernetes/backend-deploy.yaml
-      #       kubectl apply -f kubernetes/postgres-deploy.yaml
-      #       kubectl apply -f kubernetes/backend-service.yaml
-      #       kubectl apply -f kubernetes/postgres-service.yaml
-      #     debug: true
+      - name: Update Kubernetes Deployment on Worker 1
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST_MASTER }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y apt-transport-https curl gnupg2
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+            kubectl apply -f kubernetes/backend-deploy.yaml
+            kubectl apply -f kubernetes/postgres-deploy.yaml
+            kubectl apply -f kubernetes/backend-service.yaml
+            kubectl apply -f kubernetes/postgres-service.yaml
+          debug: true
 
       # Máquina Worker 1
       # - name: Update Kubernetes Deployment on Worker 1
