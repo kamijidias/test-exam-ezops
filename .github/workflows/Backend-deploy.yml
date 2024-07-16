@@ -39,7 +39,7 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-      - name: Build and push Docker images
+      - name: Build & push Docker images
         run: |
           cd rest-api-ezops-test/
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/backend-image:latest .
@@ -97,7 +97,7 @@ jobs:
           nc -zv ${{ secrets.EC2_HOST_MASTER }} 22
 
       # Máquina Master
-      - name: Update Kubernetes Deployment on Worker 1
+      - name: Update Kubernetes Deployment
         if: github.ref == 'refs/heads/master' && github.event_name == 'push' && env.RUN_DEPLOYMENT_UPDATE == 'true'
         uses: appleboy/ssh-action@v0.1.6
         with:
