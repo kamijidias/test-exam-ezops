@@ -90,15 +90,11 @@ jobs:
           cd terraform
           terraform apply -auto-approve tfplan
 
-      - name: Debug Secrets
-        run: |
-          echo "SSH_HOST_MASTER is ${{ secrets.SSH_HOST_MASTER }}"
-
       # teste de conexao
       - name: Check SSH Connectivity
         run: |
-          echo "Testing SSH connection to ${{ secrets.SSH_HOST_MASTER }} on port 22"
-          nc -zv ${{ secrets.SSH_HOST_MASTER }} 22
+         echo "Testing SSH connection to 34.239.112.248 on port 22"
+         nc -zv 34.239.112.248 22
 
       # Máquina Master
       - name: Update Kubernetes Deployment on Worker 1
