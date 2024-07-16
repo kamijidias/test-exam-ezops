@@ -85,20 +85,14 @@ jobs:
           name: tfplan
           path: terraform/tfplan
 
-      - name: Terraform Apply
-        run: |
-          cd terraform
-          terraform apply -auto-approve tfplan
-
-      # teste de conexão ao servidor main
-      - name: Check SSH Connectivity
-        run: |
-          echo "Testing SSH connection to ${{ secrets.EC2_HOST_MASTER }} on port 22"
-          nc -zv ${{ secrets.EC2_HOST_MASTER }} 22
+      # - name: Terraform Apply
+      #   run: |
+      #     cd terraform
+      #     terraform apply -auto-approve tfplan
 
       # Máquina Master
       - name: Update Kubernetes Deployment
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push' && env.RunUpdate == "true"
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST_MASTER }}
