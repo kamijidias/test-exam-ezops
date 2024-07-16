@@ -92,7 +92,7 @@ jobs:
 
       # Máquina Master
       - name: Update Kubernetes Deployment
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push' && env.RunUpdate == 'true'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST_MASTER }}
