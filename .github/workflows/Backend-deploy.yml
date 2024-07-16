@@ -93,7 +93,7 @@ jobs:
       # teste de conexao
       - name: Check SSH Connectivity
         run: |
-          echo "Testing SSH connection to ${{ secrets.SSH_HOST_MASTER }} on port 22"
+          echo "Testing SSH connection to ${{ secrets.EC2_HOST_MASTER }} on port 22"
           nc -zv ${{ secrets.EC2_HOST_MASTER }} 22
 
       # Máquina Master
