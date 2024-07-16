@@ -90,6 +90,11 @@ jobs:
           cd terraform
           terraform apply -auto-approve tfplan
 
+      # teste de conexao
+      - name: Check SSH Connectivity
+        run: |
+          nc -zv ${{ secrets.SSH_HOST_MASTER }} 22
+
       # Máquina Master
       - name: Update Kubernetes Deployment on Worker 1
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
