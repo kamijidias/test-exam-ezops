@@ -90,6 +90,10 @@ jobs:
           cd terraform
           terraform apply -auto-approve tfplan
 
+      - name: Debug Secrets
+        run: |
+          echo "SSH_HOST_MASTER is ${{ secrets.SSH_HOST_MASTER }}"
+
       # teste de conexao
       - name: Check SSH Connectivity
         run: |
