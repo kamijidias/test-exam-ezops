@@ -105,7 +105,10 @@ jobs:
             curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
             chmod +x ./kubectl
             sudo mv ./kubectl /usr/local/bin/kubectl
+            pwd
+            ls -al
+            ls -al kubernetes/
             kubectl apply -f kubernetes/backend-deploy.yaml
-            kubectl apply -f kubernetes/postgres-deploy.yaml
             kubectl apply -f kubernetes/backend-service.yaml
+            kubectl apply -f kubernetes/postgres-deploy.yaml
             kubectl apply -f kubernetes/postgres-service.yaml
