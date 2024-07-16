@@ -93,17 +93,18 @@ jobs:
       # teste de conexao
       - name: Check SSH Connectivity
         run: |
-         echo "Testing SSH connection to 34.239.112.248 on port 22"
-         nc -zv 34.239.112.248 22
+          echo "Testing SSH connection to ${{ secrets.SSH_HOST_MASTER }} on port 22"
+          nc -zv ${{ secrets.SSH_HOST_MASTER }} 22
 
       # Máquina Master
       - name: Update Kubernetes Deployment on Worker 1
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: "34.239.112.248"
+          host: ${{ secrets.SSH_HOST_MASTER }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
             sudo apt-get update
             sudo apt-get install -y apt-transport-https curl gnupg2
