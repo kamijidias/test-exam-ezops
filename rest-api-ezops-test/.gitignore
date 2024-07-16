@@ -1,4 +1,7 @@
+# Diretório node modules
 node_modules/
+
+# Arquivos docker
 devops.txt
 .docker
 docker-compose.yml

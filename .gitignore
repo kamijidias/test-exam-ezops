@@ -1,6 +1,16 @@
-# Build directories
-./rest-api-ezops-test/node_modules
-./vuejs-ezops-test
-./terraform/.tfplan
+# Diretórios de build
+
+# Diretório de dependências do Node.js para a aplicação backend
+./rest-api-ezops-test/node_modules  
+
+# Diretório do projeto Vue.js para a aplicação frontend
+./vuejs-ezops-test                  
+
+# Arquivo de plano do Terraform, geralmente gerado ao rodar "terraform plan"
+./terraform/.tfplan   
+
+# Diretório que contém arquivos de estado e configurações do Terraform
 ./terraform/.terraform/
-terraform/.terraform/
+
+# Diretório redundante; pode ser removido se o caminho acima já for considerado
+terraform/.terraform/        

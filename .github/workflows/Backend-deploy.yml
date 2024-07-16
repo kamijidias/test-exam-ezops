@@ -1,4 +1,4 @@
-name: Backend Build and Deploy
+name: Backend Build & Deploy
 
 on:
   workflow_call:
@@ -90,7 +90,7 @@ jobs:
           cd terraform
           terraform apply -auto-approve tfplan
 
-      # teste de conexão ao servidor
+      # teste de conexão ao servidor main
       - name: Check SSH Connectivity
         run: |
           echo "Testing SSH connection to ${{ secrets.EC2_HOST_MASTER }} on port 22"
