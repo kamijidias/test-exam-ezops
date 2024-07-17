@@ -120,6 +120,11 @@ resource "aws_instance" "master" {
   tags = {
     Name = "test-andrew-kubernetes-master"
   }
+
+  lifecycle {
+    create_before_destroy = false
+    prevent_destroy = true
+  }
 }
 
 resource "aws_instance" "worker" {

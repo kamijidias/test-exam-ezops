@@ -119,13 +119,6 @@ jobs:
             chmod +x ./kubectl
             sudo mv ./kubectl /usr/local/bin/kubectl
 
-            # Verificar a existência dos arquivos YAML do Kubernetes
-            ls -la kubernetes/
-            cat kubernetes/backend-deploy.yaml
-            cat kubernetes/postgres-deploy.yaml
-            cat kubernetes/backend-service.yaml
-            cat kubernetes/postgres-service.yaml
-
             # Aplicar as configurações do Kubernetes
             kubectl apply -f kubernetes/backend-deploy.yaml
             kubectl apply -f kubernetes/postgres-deploy.yaml
