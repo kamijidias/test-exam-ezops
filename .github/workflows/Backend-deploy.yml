@@ -100,19 +100,33 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            # Atualizar índice de pacotes e instalar Git
+            sudo apt-get update
+            sudo apt-get install -y git
+
+            # Clonar o repositório do GitHub
+            git clone https://github.com/kamijidias/test-exam-ezops.git
+
+            # Navegar para o diretório do repositório
+            cd test-exam-ezops
+
+            # Instalar dependências necessárias
             sudo apt-get update
             sudo apt-get install -y apt-transport-https curl gnupg2
+
+            # Baixar e instalar kubectl
             curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
             chmod +x ./kubectl
             sudo mv ./kubectl /usr/local/bin/kubectl
 
-            # Verificar arquivos YAML do Kubernetes
+            # Verificar a existência dos arquivos YAML do Kubernetes
             ls -la kubernetes/
             cat kubernetes/backend-deploy.yaml
             cat kubernetes/postgres-deploy.yaml
             cat kubernetes/backend-service.yaml
             cat kubernetes/postgres-service.yaml
 
+            # Aplicar as configurações do Kubernetes
             kubectl apply -f kubernetes/backend-deploy.yaml
             kubectl apply -f kubernetes/postgres-deploy.yaml
             kubectl apply -f kubernetes/backend-service.yaml
