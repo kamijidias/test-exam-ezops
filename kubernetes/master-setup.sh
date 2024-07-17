@@ -30,15 +30,11 @@ sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-# Habilitar e iniciar o serviço Kubelet
-sudo systemctl enable kubelet
-sudo systemctl start kubelet
-
 # Desabilitar swap (requisito do Kubernetes)
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-# Inicializar Kubernetes no nó master, se necessário
+# Inicializar Kubernetes no nó master
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
 # Aguardar a conclusão do kubeadm init
@@ -56,4 +52,4 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 sudo kubeadm token create --print-join-command > /joincluster.sh
 
 # Tornar o script de junção executável
-sudo chmod +x /joincluster.s
+sudo chmod +x /joincluster.sh
