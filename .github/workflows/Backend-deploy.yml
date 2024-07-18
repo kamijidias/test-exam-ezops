@@ -90,28 +90,35 @@ jobs:
           cd terraform
           terraform apply -auto-approve tfplan
 
-      # Máquina Master
-      - name: Update Kubernetes Deployment
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.EC2_HOST_MASTER }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
-            sudo apt-get update
-            sudo apt-get install -y git
-            git clone https://github.com/kamijidias/test-exam-ezops.git
-            cd test-exam-ezops
-            sudo apt-get update
-            sudo apt-get install -y apt-transport-https curl gnupg2
-            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            chmod +x ./kubectl
-            sudo mv ./kubectl /usr/local/bin/kubectl
+    deploy-kubernetes:
+      needs: [terraform]
+      runs-on: ubuntu-latest
 
-            # Aplicar as configurações do Kubernetes
-            kubectl apply -f kubernetes/backend-deploy.yaml
-            kubectl apply -f kubernetes/postgres-deploy.yaml
-            kubectl apply -f kubernetes/backend-service.yaml
-            kubectl apply -f kubernetes/postgres-service.yaml
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Update Kubernetes Deployment
+          if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+          uses: appleboy/ssh-action@v0.1.6
+          with:
+            host: ${{ secrets.EC2_HOST_MASTER }}
+            username: ${{ secrets.EC2_USER }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            port: 22
+            script: |
+              sudo apt-get update
+              sudo apt-get install -y git
+              git clone https://github.com/kamijidias/test-exam-ezops.git
+              cd test-exam-ezops
+              sudo apt-get update
+              sudo apt-get install -y apt-transport-https curl gnupg2
+              curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+              chmod +x ./kubectl
+              sudo mv ./kubectl /usr/local/bin/kubectl
+
+              # Aplicar as configurações do Kubernetes
+              kubectl apply -f kubernetes/backend-deploy.yaml
+              kubectl apply -f kubernetes/postgres-deploy.yaml
+              kubectl apply -f kubernetes/backend-service.yaml
+              kubectl apply -f kubernetes/postgres-service.yaml
