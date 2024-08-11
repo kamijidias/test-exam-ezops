@@ -1,4 +1,4 @@
-# Teste-Ezops
+#DEVOPS
 
 Este repositório contém a estrutura do projeto com configuração de CI/CD com GitHub Actions, implantação de backend e frontend, e infraestrutura como código com Terraform e Kubernetes.
 
